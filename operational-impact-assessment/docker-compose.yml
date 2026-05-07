@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  bia:
+    image: "workshop"
+    container_name: "workshop"
+    ports:
+      - "8003:80"
+      - "8002:8000"
+
+

@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <link rel="stylesheet" href="graph-creator.css" />
+    <link rel="stylesheet" href="external/fontawesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="external/alertifyjs/alertify.min.css"/>
+    <link rel="stylesheet" href="external/alertifyjs/default.min.css"/>
+    <link rel="stylesheet" href="external/bootstrap-4.0.0-dist/css/bootstrap.min.css">
+    <script src="external/jquery/jquery-3.6.0.js"></script>
+    <script src="external/bootstrap-4.0.0-dist/js/bootstrap.min.js"></script>
+    <script src="external/d3/d3.v3.min.js" charset="utf-8"></script>
+    <script src="external/filesaver/FileSaver.min.js"></script>
+    <script src="external/undomanager/undomanager.js"></script>
+    <script src="external/alertifyjs/alertify.min.js"></script>
+    <script src="external/colorbrewer/colorbrewer.js"></script>
+    <script src="external/canvas-to-blob/canvas-to-blob.min.js"></script>
+    <script src="graph-creator.js"></script>
+    <script src="d3.superformula.min.js"></script>
+    <script type="text/javascript" src="config.js"></script>
+  </head>
+
+  <body>
+    <div id="page">
+      <div id="left_panel">
+        <div id="left_panel_content">
+          <h2> Business Impact Visualization </h2>
+          <hr>
+          <div>
+            <h3>Graph type</h3>
+            <!--<p>Use <b>T</b> to change the Type of the graph, between Time or Probability.</p>--->
+            <form>
+              <input type="radio" class='button_displayType' name="button_displayType"
+              id='button_probability' value="PROBABILITY" checked> PROBABILITY
+              <br>
+              <input type="radio" class='button_displayType' name="button_displayType"
+              id='button_temporal' value="TEMPORAL"> TEMPORAL
+            </form>
+          </div>
+          <hr>
+          <div id='ApiPythonInteraction'>
+              <h3>Analysis Functions</h3>
+              <hr>
+              <h4 id="title_button_getImpact">Business Impact Computation</h4>
+              <p><button type="button"  name="button_getImpact" id="button_getImpact">Get Impact Probability</button>
+              <div>
+                <p id='get_button_result'> No Result </p>
+              </div>
+              <br>
+              <h4>Asset Criticality Computation</h4>
+              <p><button type="button"  name="button_getCriticality" id="button_getCriticality">Get Criticality</button>
+              <div>
+                <p id='criticality_result'>No Result</p>
+              </div>
+          </div>
+          <hr>
+          <div>
+            <h3>Controls</h3>
+           <p><b>Add a new Node:</b></p>
+           <p><i>Shift + Click</i> on an empty space.</p>
+           <p><b>Add a new Edge:</b></p>
+           <p><i>Shift + Click</i> on a node, and drag to another node.</p>
+           <p><b>Edit a Node/Edge:</b></p>
+           <p><i>Ctrl + Click</i> on a node/edge.</p>
+          </div>
+        </div>
+      </div>
+      <div id="main_panel">
+        <div class="modal fade" id="nodeModal" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h2 class="modal-title" id="edgeLabel">Node Information</h2>
+              </div>
+              <div class="modal-body">
+                <h4>Node Type</h4>
+                <div class="form-group">
+                    <select name="txt_node_type" id="txt_node_type">
+                      <option selected="yes">Asset</option>
+                      <option>Business</option>
+                      <option>Shock</option>
+                    </select>
+                </div>
+                <hr>
+                <h4>Title</h4>
+                <div class="form-group">
+                    <input type="text" name="txt_node_title"
+                    class="form-control" id="txt_node_title"
+                    placeholder="Title of the Node" autofocus>
+                </div>
+                <h4>UUID</h4>
+                <div class="form-group">
+                    <input type="text" name="txt_node_uuid"
+                    class="form-control" id="txt_node_uuid"
+                    placeholder="IMC Unerversally Unique identifier" autofocus>
+                </div>
+                <h4>IP address</h4>
+                <div class="form-group">
+                    <input type="text" name="txt_node_ip"
+                    class="form-control" id="txt_node_ip"
+                    placeholder="IP address of the the Asset" autofocus>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"></span>close</button>
+                <button type="button" id="node_submit" class="btn btn-primary" data-dismiss="modal"></span>save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="edgeModal" role="dialog" aria-labelledby="myModalLabel">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"
+                  aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h2 class="modal-title" id="edgeLabel">Edge Information</h2>
+              </div>
+              <div class="modal-body">
+                  <h3>Propagation Probability</h3>
+                  <div class="form-group">
+                      <label for="txt_func">Forward Probability</label>
+                      <input type="number" step="0.01" min=0 max=1 name="txt_propagationProba_fwd"
+                      class="form-control" id="txt_propagationProba_fwd"
+                      placeholder="Propagation Probability Forward" autofocus>
+                      <label for="txt_func">Backward Probability</label>
+                      <input type="number" step="0.01" min=0 max=1 name="txt_propagationProba_bwd"
+                      class="form-control" id="txt_propagationProba_bwd"
+                      placeholder="Propagation Probability Backward">
+                  </div>
+                  <hr>
+                  <h3>Propagation Time</h3>
+                  <div class="form-group">
+                      <label for="txt_func">Forward Time</label>
+                      <input type="number" step="0.5" min=0.1 value=5 name="txt_propagationTime_fwd"
+                      class="form-control" id="txt_propagationTime_fwd"
+                      placeholder="Propagation Time Forward" autofocus>
+                  </div>
+                  <div class="form-group">
+                      <label for="txt_func">Backward Time</label>
+                      <input type="number" step="0.5" min=0.1 value=5 name="txt_propagationTime_bwd"
+                      class="form-control" id="txt_propagationTime_bwd"
+                      placeholder="Propagation Time Forward" autofocus>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal"></span>close</button>
+                  <button type="button" id="edge_submit" class="btn btn-primary" data-dismiss="modal"></span>save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="graph">
+          <div id="toolbox">
+            <input type="file" id="hidden-file-upload" />
+            <button type="submit" id="upload-input" title="Load" alt="Load" class="btn_icon" aria-hidden="true"/>
+            <button type="submit" id="download-input" title="Save" alt="Save" class="btn_icon" aria-hidden="true"/>
+            <button type="submit" id="delete-graph" title="Delete" alt="Delete" class="btn_icon" aria-hidden="true"/>
+            <button type="submit" id="center-graph" title="Center" alt="Center" class="btn_icon" aria-hidden="true"/>
+            <button type="submit" id="download-image" title="As Image" alt="As Image" class="btn_icon" aria-hidden="true"/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+        window.onload = function () {
+            alertify.defaults.transition = "fade";
+            alertify.defaults.glossary.title = "::.";
+            var svg = window.create_svg_helper('#graph');
+            window.nodes = [];
+            window.edges = [];
+            window.graph = new window.GraphCreator(svg, nodes, edges, config);
+            window.graph.setIdCt(2);
+            window.load_help_graph(window.graph)
+        };
+    </script>
+  </body>
+
+</html>

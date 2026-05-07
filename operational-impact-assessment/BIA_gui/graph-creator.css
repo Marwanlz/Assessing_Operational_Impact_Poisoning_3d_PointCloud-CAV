@@ -1,0 +1,163 @@
+p{
+     text-align: center;
+     overflow: overlay;
+     position: relative;
+}
+
+body{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: rgb(248, 248, 248);
+}
+
+#page{
+  display: inline-flex;
+}
+
+#left_panel{
+    float: left;
+    width: 300px;
+    background-color: #DDDDDD;
+    text-align: center;
+}
+
+#left_panel_content{
+  margin: 25px 30px 75px;
+}
+
+#toolbox{
+    position: absolute;
+    bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.5em;
+    margin-left: 1em;
+    border: 2px solid #EEEEEE;
+    border-radius: 5px;
+    padding: 1em;
+    z-index: 5;
+}
+
+#toolbox i{
+    width: 300px;
+    opacity: 0.4;
+}
+#toolbox i:hover{
+    opacity: 1;
+    cursor: pointer;
+}
+
+#hidden-file-upload{
+    display: none;
+}
+
+.btn_icon{
+  width: 50px;
+  height: 50px;
+}
+
+#upload-input{
+  background: url('/icons/upload-icon.png') center no-repeat;
+  background-size: 100% 100%;
+  background-color: rgb(248, 248, 248);
+}
+
+#download-input{
+  background: url('/icons/download-icon.png') center no-repeat;
+  background-size: 100% 100%;
+  background-color: rgb(248, 248, 248);
+}
+
+#delete-graph{
+  background: url('/icons/delete-icon.png') center no-repeat;
+  background-size: 100% 100%;
+  background-color: rgb(248, 248, 248);
+}
+
+#center-graph{
+  background: url('/icons/center-icon.jpg') center no-repeat;
+  background-size: 100% 100%;
+  background-color: rgb(248, 248, 248);
+}
+
+#download-image{
+  background: url('/icons/download-img-icon.png') center no-repeat;
+  background-size: 100% 100%;
+  background-color: rgb(248, 248, 248);
+}
+
+
+.conceptG text{
+    pointer-events: none;
+}
+
+marker{
+    fill: #333;
+}
+
+g.conceptG circle{
+    fill: #F6FBFF;
+    stroke: #333;
+    stroke-width: 2px;
+}
+
+g.conceptG:hover circle{
+    fill: rgb(200, 238, 241);
+}
+
+g.selected circle{
+    fill: rgb(250, 232, 255);
+}
+g.selected:hover circle{
+    fill: rgb(250, 232, 255);
+}
+
+g.conceptG rect{
+    fill: #F6FBFF;
+    stroke: #333;
+    stroke-width: 2px;
+}
+
+g.conceptG:hover rect{
+    fill: rgb(200, 238, 241);
+}
+
+g.selected rect{
+    fill: rgb(200, 238, 241);
+    stroke-width: 4px;
+}
+g.selected:hover rect{
+    fill: rgb(200, 238, 241);
+}
+
+path.link {
+    fill: none;
+    stroke: #333;
+    stroke-width: 4px;
+    cursor: default;
+}
+
+path.link:hover{
+    stroke: rgb(94, 196, 204);
+}
+
+g.connect-node circle{
+    fill: #BEFFFF;
+}
+
+g.connect-node rect{
+    fill: #BEFFFF;
+}
+
+path.link.hidden{
+    stroke-width: 0;
+}
+
+path.link.selected {
+    stroke: rgb(94, 196, 204);
+    stroke-width: 6px;
+}
