@@ -1,5 +1,13 @@
 # Impact analysis of data poisoning on GAN-based data augmentation techniques
 
+## Paper
+This repository contains the code and datasets associated with the following paper:
+**Assessing the Operational Impact of Poisoning Attacks over Augmented 3D Point Cloud Public Datasets for Connected and Autonomous Vehicles**
+
+Marwan Lazrag, Badis Hammi, Lorena Gonzalez-Manzano, Joaquin Garcia-Alfaro
+
+SECRYPT 2026
+
 ## Main resources contained in this repository
 
 ### 1. Impact Assessment Tool
