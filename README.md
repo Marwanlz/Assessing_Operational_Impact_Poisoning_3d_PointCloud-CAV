@@ -42,7 +42,7 @@ Open and process the following two files
 * Impact Assessment tool: The impact assessment tool used in this work is based on our previous work, [the Business Impact Analyser](https://gitlab.com/tsp-soccrates-components/bia).
 * Datasets and classification process : The data augmentation and classification process is based on these two projects: [3DGAN](https://github.com/xchhuang/simple-pytorch-3dgan/) and [InceptionNet](https://github.com/fgn02/Advanced-Image-Classification-through-CNNs), with modifications including parameter adjustments and a new function to generate .mat objects as output to train the 3D-GAN and produce new synthetic 3D point clouds.
 
-#### References
+## References
 
 If using this code for research purposes, please cite:
 
